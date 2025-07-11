@@ -24,7 +24,7 @@ def get_text(url):
 # AI összegzés OpenRouteren keresztül
 def ai_summary(text):
     data = {
-        "model": "mistralai/mixtral-8x7b-instruct",
+        "model": "deepseek/deepseek-chat-v3-0324:free",
         "messages": [{
             "role": "user",
             "content": f"Foglalj össze magyarul:\n\n{text[:4000]}"
