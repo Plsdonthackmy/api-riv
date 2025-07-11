@@ -8,7 +8,7 @@ import concurrent.futures
 from datetime import datetime
 
 app = Flask(__name__)
-OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')
+PUTER_AI_URL = "https://ai.puter.com/v1/chat/completions"  # Puter AI endpoint
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
 
 # Prioritized domains for Hungarian news and authoritative sources
@@ -121,7 +121,7 @@ Szöveg:
 {text[:5000]}"""
         
         data = {
-            "model": "deepseek/deepseek-chat-v3-0324:free",
+            "model": "gpt-3.5-turbo",  # Using Puter AI's default model
             "messages": [{
                 "role": "user",
                 "content": prompt
@@ -131,12 +131,11 @@ Szöveg:
         }
         
         headers = {
-            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
             "Content-Type": "application/json"
         }
         
         res = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
+            PUTER_AI_URL,
             headers=headers,
             json=data,
             timeout=15
