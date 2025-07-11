@@ -44,7 +44,7 @@ def search():
     links = duckduckgo_search(q)
     results = []
 
-    for link in links[:3]:  # csak az első linket dolgozzuk fel, hogy ne timeoutoljon
+    for link in links[:2]:  # csak az első linket dolgozzuk fel, hogy ne timeoutoljon
         text = get_text(link)
         if len(text) > 200:
             summary = ai_summary(text)
