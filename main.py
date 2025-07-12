@@ -6,25 +6,22 @@ from urllib.parse import urlparse
 
 app = Flask(__name__)
 
-# ✅ Csak ezekből a domainekből engedünk tartalmat
 MEGBIZHATO_DOMAINNEK = [
     "index.hu", "telex.hu", "444.hu", "bbc.com", "euronews.com",
     "hu.wikipedia.org", "en.wikipedia.org",
-    "fandom.com", "gamepedia.com", "minecraft.wiki"
+    "fandom.com", "gamepedia.com", "minecraft.wiki", "zelda.fandom.com"
 ]
 
-# 🔍 Keresés DuckDuckGo segítségével
 def duckduckgo_search(q):
     res = requests.post("https://html.duckduckgo.com/html/", data={"q": q})
     soup = BeautifulSoup(res.text, "html.parser")
     return [a['href'] for a in soup.select('.result__a')]
 
-# 🧽 Letisztított szöveg kiszedése egy oldalról
 def extract_text(url):
     try:
         domain = urlparse(url).netloc.lower()
         if not any(d in domain for d in MEGBIZHATO_DOMAINNEK):
-            return None  # ⛔ Szűrés: nem megbízható
+            return None
 
         print("✅ Elfogadott domain:", domain)
         r = requests.get(url, timeout=10)
@@ -47,7 +44,7 @@ def search():
         if text:
             texts.append(text)
         if len(texts) >= 2:
-            break  # max 2 megbízható forrás
+            break
 
     if not texts:
         return Response("Nem találtam megbízható információt.", mimetype="text/plain")
